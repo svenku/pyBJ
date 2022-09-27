@@ -71,19 +71,13 @@ class Hand:
             print(f'Hand value: {self.value - values[self.cards[0].rank]}')
             contents = '********** '
         else:
-            contents = str(self.cards[0]) + ', '
+            print(f'Hand value: {self.value}')
+            contents = str(self.cards[0]) + ' '
 
         for i in range(1,len(self.cards)):
-            contents += str(self.cards[i]) + ', '
+            contents += str(self.cards[i]) + ' '
 
         print(contents)
-
-    def __str__(self):
-        print(f'Hand contains : {str(len(self.cards))} cards.' )
-        contents = ''
-        for card in self.cards:
-            contents += str(card) + ', '
-        return contents[:-2] + '. '
 
 class Chips:
 
@@ -131,10 +125,12 @@ def hit_or_stand(deck,hand):
             break
 
 def player_busts():
-    pass
+    print('Player busts.')
+    player_chips.lose_bet()
 
 def player_wins():
-    pass
+    print('Player wins.')
+    player_chips.win_bet()
 
 def dealer_busts():
     pass
@@ -150,44 +146,59 @@ def push():
 
 while True:
     # Print an opening statement
-
+    print('Welcome to Blackjack!')
 
     # Create & shuffle the deck, deal two cards to each player
-
-
+    deck = Deck()
+    deck.shuffle()
+    player = Hand()
+    dealer = Hand()
+    for i in range(2):
+        hit(deck, player)
+        hit(deck, dealer)
 
     # Set up the Player's chips
-
+    player_chips = Chips()
 
     # Prompt the Player for their bet
-
+    take_bet(player_chips)
 
     # Show cards (but keep one dealer card hidden)
-
+    print('Dealer hand: ')
+    dealer.show(all=False)
+    print('Player hand: ')
+    player.show(all=True)
 
     while playing:  # recall this variable from our hit_or_stand function
 
         # Prompt for Player to Hit or Stand
-
+        hit_or_stand(deck, player)
 
         # Show cards (but keep one dealer card hidden)
-
+        print('Dealer hand: ')
+        dealer.show(all=False)
+        print('Player hand: ')
+        player.show(all=True)
 
         # If player's hand exceeds 21, run player_busts() and break out of loop
-
-
+        if player.value > 21:
+            player_busts()
             break
 
     # If Player hasn't busted, play Dealer's hand until Dealer reaches 17
-
-
+    while dealer.value < 17:
+    
+        hit(deck, dealer)
         # Show all cards
-
+        print('Dealer hand: ')
+        dealer.show(all=True)
+        print('Player hand: ')
+        player.show(all=True)
         # Run different winning scenarios
-
+        
 
     # Inform Player of their chips total
 
     # Ask to play again
 
-        break
+        #break
