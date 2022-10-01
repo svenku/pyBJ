@@ -131,6 +131,7 @@ def hit_or_stand():
         elif reply == 'S':
             print('Player stands.')
             break
+    
 
 def player_busts(player_chips):
     print('Player busts.')
@@ -163,8 +164,6 @@ player_chips = Chips()
 
 while True:
 
-
-
     while playing:  # recall this variable from our hit_or_stand function
 
         # Create & shuffle the deck, deal two cards to each player
@@ -188,11 +187,11 @@ while True:
         # Prompt for Player to Hit or Stand
         hit_or_stand()
 
-        # Show cards (but keep one dealer card hidden)
-        print('\nDealer hand: ')
-        dealer.show(all=False)
-        print('\nPlayer hand: ')
-        player.show(all=True)
+        # # Show cards (but keep one dealer card hidden)
+        # print('\nDealer hand: ')
+        # dealer.show(all=False)
+        # print('\nPlayer hand: ')
+        # player.show(all=True)
 
         # If player's hand exceeds 21, run player_busts() and break out of loop
         if player.value > 21:
@@ -222,7 +221,7 @@ while True:
         # Ask to play again
         while True:
             replay = input('Replay? (Y)es or (N)o: ').upper()
-            if replay == 'Y':
+            if replay == 'Y' and player_chips.total >= 1:
                 print('Continuing.')
                 playing = True
                 break
@@ -230,3 +229,10 @@ while True:
                 print('Quitting.')
                 playing = False
                 break
+            elif player_chips.total < 1:
+                print('No chips. Resetting chips')
+                player_chips = Chips()
+                playing = True
+                break
+    print('Thank you for playing!')
+    break
